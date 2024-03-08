@@ -1,5 +1,5 @@
 {
-	"name": "customer",
+	"name": "@charlie-ec/customer",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
-import Layout from './Layout';
+import App from './App';
 
-ReactDOM.createRoot(document.getElementById('root')).render(<Layout />);
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
