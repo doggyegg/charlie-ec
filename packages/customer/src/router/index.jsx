@@ -18,7 +18,7 @@ export default () => {
 				resolve([
 					{
 						name: '首页',
-						path: '/home',
+						path: '/',
 						element: '/Home/index.jsx',
 						children: [
 							{

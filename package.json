@@ -10,6 +10,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"antd": "^5.15.2",
 		"lodash": "^4.17.21",
 		"sass": "^1.71.1",
 		"sass-loader": "^14.1.1"

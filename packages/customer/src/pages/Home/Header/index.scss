@@ -1,0 +1,14 @@
+.home__header {
+	display: flex;
+	height: 60px;
+	padding: 8px 16px;
+	background: #131921;
+	box-sizing: border-box;
+	align-items: center;
+	color: white;
+	.icon {
+		font-weight: bold;
+		font-size: 24px;
+		font-style: italic;
+	}
+}
