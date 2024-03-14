@@ -1,7 +1,7 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense, useEffect, useState } from 'react';
-import store from '../store/index';
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
 	const [routes, setRoutes] = useState([]);
 
@@ -18,13 +18,13 @@ export default () => {
 				resolve([
 					{
 						name: '首页',
-						path: '/',
+						path: '/home',
 						element: '/Home/index.jsx',
 						children: [
 							{
-								name: 'page1',
-								path: 'page1',
-								element: '/Home/Page1'
+								name: 'productList',
+								path: 'productList',
+								element: '/ProductList'
 							}
 						]
 					},
@@ -59,11 +59,7 @@ export default () => {
 	const recurRender = routes => {
 		return routes.map(menu => {
 			return (
-				<Route
-					path={menu.path}
-					key={menu.path}
-					element={<menu.component theme={store.theme} userInfo={store.userInfo}></menu.component>}
-				>
+				<Route path={menu.path} key={menu.path} element={<menu.component />}>
 					{menu.children ? recurRender(menu.children) : null}
 				</Route>
 			);
@@ -72,7 +68,11 @@ export default () => {
 
 	return (
 		<Suspense fallback={<div>loading...</div>}>
-			<Routes>{recurRender(routes)}</Routes>
+			<Routes>
+				<Route path="/" element={<Navigate to="/home/productList" />}></Route>
+				<Route path="/home" element={<Navigate to="/home/productList" />}></Route>
+				{recurRender(routes)}
+			</Routes>
 		</Suspense>
 	);
 };

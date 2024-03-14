@@ -6,9 +6,31 @@
 	box-sizing: border-box;
 	align-items: center;
 	color: white;
+	.ant-select-selector {
+		background-color: #e6e6e6 !important;
+	}
 	.icon {
 		font-weight: bold;
 		font-size: 24px;
 		font-style: italic;
+		width: 200px;
+	}
+	.address {
+		white-space: nowrap;
+		margin-right: 16px;
+		div {
+			font-size: 14px;
+			font-weight: bold;
+			&:first-child {
+				color: #ccc;
+				font-size: 12px;
+				font-weight: normal;
+			}
+		}
+	}
+	.login-trigger {
+		font-size: 12px;
+		margin-left: 16px;
+		white-space: nowrap;
 	}
 }

@@ -1,2 +1,10 @@
 .home {
+	background-color: #e3e6e6;
+	height: 100vh;
+	overflow: hidden;
+
+	.content {
+		width: 1500px;
+		margin: 0 auto;
+	}
 }

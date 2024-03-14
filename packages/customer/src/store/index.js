@@ -8,7 +8,7 @@ const theme = makeAutoObservable({
 });
 
 const userInfo = makeAutoObservable({
-	value: { age: 18, name: 'zs', gender: 'man' },
+	value: null,
 	setValue(val) {
 		this.value = val;
 	}
