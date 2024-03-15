@@ -10,6 +10,7 @@ export default function Menu() {
 			</div>
 			<div>今日特价</div>
 			<div>秒杀活动</div>
+			<div>礼品卡</div>
 			<div>客户服务</div>
 		</div>
 	);

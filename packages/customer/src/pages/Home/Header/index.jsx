@@ -1,5 +1,5 @@
 import './index.scss';
-import CInput from '@charlie-ec/base/src/reactComponents/base/CInput';
+import { CInput } from '@charlie-ec/base/src/reactComponents';
 import { observer } from 'mobx-react-lite';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 

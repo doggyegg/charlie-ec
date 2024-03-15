@@ -1,0 +1,21 @@
+.product-list__banner {
+	height: 600px;
+	position: relative;
+	.content {
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 100%;
+	}
+	.arrow {
+		font-size: 32px;
+		top: 100px;
+	}
+	.left-arrow {
+		position: absolute;
+		left: 8px;
+	}
+	.right-arrow {
+		position: absolute;
+		right: 8px;
+	}
+}

@@ -1,4 +1,4 @@
-import store from '../../store';
+import store from '@/store';
 import Header from './Header';
 import Menu from './Menu';
 import { Outlet } from 'react-router-dom';
