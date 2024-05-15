@@ -1,1 +1,1 @@
-export { default as CInput } from './base/CInput';
+export { default as CInput } from './base/CInput/index.jsx';

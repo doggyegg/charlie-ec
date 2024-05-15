@@ -28,7 +28,8 @@ module.exports = {
 		'vue/valid-define-props': 'off', // 允许在props中引用本地文件
 		'no-console': ['error', { allow: ['info', 'error'] }],
 		'import/no-extraneous-dependencies': 'off',
-		'import/prefer-default-export': 'off'
+		'import/prefer-default-export': 'off',
+		'no-plusplus': 'off'
 	},
 	globals: {}
 };

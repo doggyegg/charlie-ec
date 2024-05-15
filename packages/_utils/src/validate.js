@@ -34,9 +34,9 @@ export default {
 	},
 	/* 是否是数字 */
 	isNumber(value) {
-		/*const reg = /^1\d{10}$/;
-		return reg.test(value);*/
-		return !isNaN(value);
+		/* const reg = /^1\d{10}$/;
+		return reg.test(value); */
+		return !Number.isNaN(value);
 	},
 	/* 内容值包含[中文，英文，数字] */
 	isCEN(value) {
@@ -58,15 +58,21 @@ export default {
 		if (!this.isIdentity(value)) {
 			return '身份证号码格式错误';
 		}
-		const ai = value.length === 18 ? value.substring(0, 17) : value.substring(0, 6) + '19' + value.substring(6, 15);
+		const ai =
+			value.length === 18
+				? value.substring(0, 17)
+				: `${value.substring(0, 6)}19${value.substring(6, 15)}`;
 		// 验证出生年月
 		const year = ai.substring(6, 10); // 年
-		const birthday = year + '/' + ai.substring(10, 12) + '/' + ai.substring(12, 14);
+		const birthday = `${year}/${ai.substring(10, 12)}/${ai.substring(12, 14)}`;
 		if (!this.isDate(birthday)) {
 			return '身份证号码出生日期无效';
 		}
 		const now = new Date();
-		if (now.getFullYear() - parseInt(year) > 150 || now.getTime() - new Date(birthday).getTime() < 0) {
+		if (
+			now.getFullYear() - parseInt(year, 10) > 150 ||
+			now.getTime() - new Date(birthday).getTime() < 0
+		) {
 			return '身份证号码出生日期不在有效范围';
 		}
 		// 验证地区码
@@ -115,9 +121,10 @@ export default {
 			const valCode = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
 			const wi = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
 			let totalMulAiWi = 0;
-			for (let i = 0; i < 17; i++) totalMulAiWi += parseInt(ai.charAt(i)) * wi[i];
+			for (let i = 0; i < 17; i++) totalMulAiWi += parseInt(ai.charAt(i), 10) * wi[i];
 			if (value !== ai + valCode[totalMulAiWi % 11]) return '身份证号码最后一位错误';
 		}
+		return false;
 	},
 	/* 是否是整数 */
 	isDigits(value) {
@@ -163,7 +170,8 @@ export default {
 	},
 	/* 是否是端口号 */
 	isPort(value) {
-		const reg = /^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/;
+		const reg =
+			/^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/;
 		return reg.test(value);
 	},
 	/* 是否是IP */
