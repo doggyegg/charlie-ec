@@ -11,7 +11,10 @@ module.exports = {
 	parserOptions: {
 		parser: '@babel/eslint-parser',
 		ecmaVersion: 12,
-		allowImportExportEverywhere: true // 不限制eslint对import使用位置
+		allowImportExportEverywhere: true, // 不限制eslint对import使用位置
+		ecmaFeatures: {
+			jsx: false
+		}
 	},
 	rules: {
 		'vue/no-multiple-template-root': 'off',
@@ -24,7 +27,8 @@ module.exports = {
 		'prefer-const': 'error',
 		'vue/valid-define-props': 'off', // 允许在props中引用本地文件
 		'no-console': ['error', { allow: ['info', 'error'] }],
-		'import/no-extraneous-dependencies': 'off'
+		'import/no-extraneous-dependencies': 'off',
+		'import/prefer-default-export': 'off'
 	},
 	globals: {}
 };
