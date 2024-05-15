@@ -1,5 +1,13 @@
 import axios from 'axios';
 
+function defaultResInter(res) {
+	return res;
+}
+
+function defaultReqInter(req) {
+	return req;
+}
+
 function requestCreator(config = {}) {
 	const { baseURL, timeout, headers, reqInter, resInter } = config;
 	const ins = axios.create({
@@ -9,22 +17,14 @@ function requestCreator(config = {}) {
 		withCredentials: true
 	});
 
-	ins.interceptors.request.use(req => {
-		return typeof reqInter === 'function' ? reqInter(req) : defaultReqInter(req);
-	});
-	ins.interceptors.response.use(res => {
-		return typeof resInter === 'function' ? resInter(res) : defaultResInter(res);
-	});
+	ins.interceptors.request.use(req =>
+		typeof reqInter === 'function' ? reqInter(req) : defaultReqInter(req)
+	);
+	ins.interceptors.response.use(res =>
+		typeof resInter === 'function' ? resInter(res) : defaultResInter(res)
+	);
 
 	return ins;
-}
-
-function defaultReqInter(req) {
-	return req;
-}
-
-function defaultResInter(res) {
-	return res;
 }
 
 export default requestCreator;

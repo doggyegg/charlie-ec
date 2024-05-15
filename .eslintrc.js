@@ -3,17 +3,28 @@ module.exports = {
 	root: true,
 	// 指定脚本的运行环境
 	env: {
-		node: true
+		node: true,
+		browser: true,
+		es2021: true
 	},
-	extends: ['eslint:recommended'],
-	// 解析器选项。指定你想支持的语言，默认支持es5。指定啥语言，eslint就按照啥语法检查。
+	extends: ['eslint:recommended', 'airbnb-base', 'prettier'],
 	parserOptions: {
-		parser: '@babel/eslint-parser'
+		parser: '@babel/eslint-parser',
+		ecmaVersion: 12,
+		allowImportExportEverywhere: true // 不限制eslint对import使用位置
 	},
 	rules: {
+		'vue/no-multiple-template-root': 'off',
+		'vue/no-mutating-props': 'off',
+		'vue/multi-word-component-names': 'off',
 		'no-unused-vars': 'error',
 		'no-var': 'error',
 		'no-debugger': 'error',
-		'no-mixed-spaces-and-tabs': 'off'
-	}
+		'no-mixed-spaces-and-tabs': 'off',
+		'prefer-const': 'error',
+		'vue/valid-define-props': 'off', // 允许在props中引用本地文件
+		'no-console': ['error', { allow: ['info', 'error'] }],
+		'import/no-extraneous-dependencies': 'off'
+	},
+	globals: {}
 };
