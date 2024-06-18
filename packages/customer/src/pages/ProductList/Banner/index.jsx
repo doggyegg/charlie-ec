@@ -20,13 +20,14 @@ export default function Banner() {
 	return (
 		<div className="product-list__banner">
 			<LeftOutlined className="arrow left-arrow" onClick={() => changeBanner(-1)}></LeftOutlined>
-			<div className="content" style={{ backgroundImage: `url("${banners[curBanner].imgUrl}")` }}></div>
+			<div
+				className="content"
+				style={{ backgroundImage: `url("${banners[curBanner].imgUrl}")` }}></div>
 			<RightOutlined
 				className="arrow right-arrow"
 				onClick={() => {
 					changeBanner(1);
-				}}
-			></RightOutlined>
+				}}></RightOutlined>
 		</div>
 	);
 }

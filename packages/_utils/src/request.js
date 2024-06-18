@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 function defaultResInter(res) {
-	return res;
+	return res.data;
 }
 
 function defaultReqInter(req) {
@@ -11,7 +11,7 @@ function defaultReqInter(req) {
 function requestCreator(config = {}) {
 	const { baseURL, timeout, headers, reqInter, resInter } = config;
 	const ins = axios.create({
-		baseURL: baseURL || 'http://localhost:6666/',
+		baseURL: baseURL || 'http://localhost:1994/api',
 		timeout: timeout || 1000 * 60,
 		headers: { Authorization: window.localStorage.TOKEN, ...headers },
 		withCredentials: true
