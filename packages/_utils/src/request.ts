@@ -1,15 +1,16 @@
 import axios from 'axios';
+import { IResInter, IRequestConfig } from '../types/request';
 
-function defaultResInter(res) {
+function defaultResInter(res: IResInter) {
 	return res.data;
 }
 
-function defaultReqInter(req) {
+function defaultReqInter(req: unknown) {
 	return req;
 }
 
-function requestCreator(config = {}) {
-	const { baseURL, timeout, headers, reqInter, resInter } = config;
+function requestCreator(config: IRequestConfig) {
+	const { baseURL, timeout, headers, reqInter, resInter } = config || {};
 	const ins = axios.create({
 		baseURL: baseURL || 'http://localhost:1994/api',
 		timeout: timeout || 1000 * 60,
@@ -21,7 +22,7 @@ function requestCreator(config = {}) {
 		typeof reqInter === 'function' ? reqInter(req) : defaultReqInter(req)
 	);
 	ins.interceptors.response.use(res =>
-		typeof resInter === 'function' ? resInter(res) : defaultResInter(res)
+		typeof resInter === 'function' ? resInter(res) : defaultResInter(res as any)
 	);
 
 	return ins;
