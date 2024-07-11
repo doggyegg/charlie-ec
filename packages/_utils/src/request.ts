@@ -18,10 +18,10 @@ function requestCreator(config: IRequestConfig) {
 		withCredentials: true
 	});
 
-	ins.interceptors.request.use(req =>
+	ins.interceptors.request.use((req: unknown) =>
 		typeof reqInter === 'function' ? reqInter(req) : defaultReqInter(req)
 	);
-	ins.interceptors.response.use(res =>
+	ins.interceptors.response.use((res: unknown) =>
 		typeof resInter === 'function' ? resInter(res) : defaultResInter(res as any)
 	);
 

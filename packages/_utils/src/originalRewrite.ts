@@ -1,6 +1,6 @@
 export default {
 	// 模拟new操作符
-	new(constructor, ...rest) {
+	new(constructor: Function, ...rest: any) {
 		const obj = {};
 		// eslint-disable-next-line
 		(obj as any).__proto__ = constructor.prototype;
