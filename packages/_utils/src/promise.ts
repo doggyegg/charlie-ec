@@ -33,8 +33,8 @@ export default class myPromise {
 		}
 	}
 	catch(cb: Function) {
-		if (this.value) {
-			cb(this.value);
+		if (this.status === 'rejected') {
+			cb(this.errorValue);
 			return this;
 		}
 		this.catchCb = () => {
@@ -47,7 +47,7 @@ export default class myPromise {
 		return this;
 	}
 	then(cb: Function) {
-		if (this.value) {
+		if (this.status === 'fulfilled') {
 			cb(this.value);
 			return this;
 		}
