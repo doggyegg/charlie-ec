@@ -473,14 +473,19 @@ var Vue = (function (exports) {
 	class ReactiveEffect {
 		// 生成effect
 		constructor(fn, scheduler = null, scope) {
+			// trigger Effect时调run调的回调函数
 			this.fn = fn;
 			this.scheduler = scheduler;
+			// 当前状态
 			this.active = true;
+			// 在各个对象属性上收集该effect时，该effect也会将对应属性绑定的dep反向收集
 			this.deps = [];
-			this.parent = void 0;
+			this.parent = void 0; // 等效于undefined
 			recordEffectScope(this, scope);
 		}
+		// triggerEffect的时候调的函数
 		run() {
+			// active为false，直接执行构造时绑定的回调函数
 			if (!this.active) {
 				return this.fn();
 			}
@@ -494,6 +499,7 @@ var Vue = (function (exports) {
 			}
 			try {
 				this.parent = activeEffect;
+				// 将全局变量的activeEffect设置为当前effect
 				activeEffect = this;
 				shouldTrack = true;
 				trackOpBit = 1 << ++effectTrackDepth;
@@ -502,6 +508,7 @@ var Vue = (function (exports) {
 				} else {
 					cleanupEffect(this);
 				}
+				// 调上面的回调函数
 				return this.fn();
 			} finally {
 				if (effectTrackDepth <= maxMarkerBits) {
@@ -566,20 +573,28 @@ var Vue = (function (exports) {
 		const last = trackStack.pop();
 		shouldTrack = last === void 0 ? true : last;
 	}
+	// target被代理的对象; type:代理的类型，如get; key对象上的各个key(除开特殊的内部属性如_isReactive,_isShallow等)
 	function track(target, type, key) {
+		// 当有activeEffect的时候
 		if (shouldTrack && activeEffect) {
+			// 先从全局targetMap上找缓存
 			let depsMap = targetMap.get(target);
 			if (!depsMap) {
+				// 没有的话以对象作为key,建立一个depsMap收集各个key依赖的map,并设置到全局变量上缓存
 				targetMap.set(target, (depsMap = /* @__PURE__ */ new Map()));
 			}
+			// 先从当前对象的depsMap上找对应key是否存在dep池
 			let dep = depsMap.get(key);
 			if (!dep) {
+				// 没有的话 给当前key创建一个dep（new Set())并放到对象的depsMap上缓存起来
 				depsMap.set(key, (dep = createDep()));
 			}
+			// 构建出trackEffects需要的数据结构
 			const eventInfo = { effect: activeEffect, target, type, key };
 			trackEffects(dep, eventInfo);
 		}
 	}
+	// 本质上是将当前的activeEffect加入到代理对象的对应的key下的dep当中(Set结构)
 	function trackEffects(dep, debuggerEventExtraInfo) {
 		let shouldTrack2 = false;
 		if (effectTrackDepth <= maxMarkerBits) {
@@ -670,6 +685,7 @@ var Vue = (function (exports) {
 			}
 		}
 	}
+	// 执行对应dep下各个effect中的回调
 	function triggerEffects(dep, debuggerEventExtraInfo) {
 		const effects = isArray(dep) ? dep : [...dep];
 		for (const effect2 of effects) {
@@ -743,8 +759,10 @@ var Vue = (function (exports) {
 		track(obj, 'has', key);
 		return obj.hasOwnProperty(key);
 	}
+	// 返回对象，数组的proxy代理的getter函数
 	function createGetter(isReadonly2 = false, shallow = false) {
 		return function get2(target, key, receiver) {
+			// 各种异常情况判断开始
 			if (key === '__v_isReactive') {
 				return !isReadonly2;
 			} else if (key === '__v_isReadonly') {
@@ -778,7 +796,9 @@ var Vue = (function (exports) {
 			if (isSymbol(key) ? builtInSymbols.has(key) : isNonTrackableKeys(key)) {
 				return res;
 			}
+			// 异常判断结束
 			if (!isReadonly2) {
+				// 收集依赖
 				track(target, 'get', key);
 			}
 			if (shallow) {
@@ -788,6 +808,7 @@ var Vue = (function (exports) {
 				return targetIsArray && isIntegerKey(key) ? res : res.value;
 			}
 			if (isObject(res)) {
+				// 递归设置响应式
 				return isReadonly2 ? readonly(res) : reactive(res);
 			}
 			return res;
@@ -1332,6 +1353,7 @@ var Vue = (function (exports) {
 		}
 		// 读取对象属性进行代理
 		get value() {
+			// 在ref实例上会设置一个dep(new Set)收集effects
 			trackRefValue(this);
 			return this._value;
 		}
@@ -1339,8 +1361,10 @@ var Vue = (function (exports) {
 		set value(newVal) {
 			const useDirectValue = this.__v_isShallow || isShallow(newVal) || isReadonly(newVal);
 			newVal = useDirectValue ? newVal : toRaw(newVal);
+			// 输入的值和当前ref实例上原始值不一样时触发
 			if (hasChanged(newVal, this._rawValue)) {
 				this._rawValue = newVal;
+				// 将新值再做一次响应式代理
 				this._value = useDirectValue ? newVal : toReactive(newVal);
 				triggerRefValue(this, newVal);
 			}
