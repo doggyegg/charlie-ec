@@ -4,6 +4,7 @@ module.exports = {
 		{ value: 'feat', name: 'feat: 新功能' },
 		{ value: 'fix', name: 'fix: 修复' },
 		{ value: 'style', name: 'style: 样式修改' },
+		{ value: 'document', name: 'document: 添加注释' },
 		{ value: 'refactor', name: 'refactor: 重构(既不是增加feature，也不是修复bug)' },
 		{ value: 'conflict', name: 'conflict: 解决冲突' },
 		{ value: 'config', name: 'config:配置文件变更' },
