@@ -1349,9 +1349,9 @@ var Vue = (function (exports) {
 			this.dep = void 0; // void 0 看作undefined
 			this.__v_isRef = true; // ref实例标识
 			this._rawValue = __v_isShallow ? value : toRaw(value); // 保留原始值
-			this._value = __v_isShallow ? value : toReactive(value); // 响应式处理传入的值
+			this._value = __v_isShallow ? value : toReactive(value); // 如果是对象递归响应式处理，基本数据类型不处理
 		}
-		// 读取对象属性进行代理
+		// 读取对象属性进行代理，后续通过.value访问
 		get value() {
 			// 在ref实例上会设置一个dep(new Set)收集effects
 			trackRefValue(this);
@@ -7177,6 +7177,7 @@ If you want to remount the same app, move your app creation logic into a factory
 				}
 				return;
 			}
+			// 创建renderEffect
 			setupRenderEffect(
 				instance,
 				initialVNode,
@@ -7213,6 +7214,7 @@ If you want to remount the same app, move your app creation logic into a factory
 				instance.vnode = n2;
 			}
 		};
+		// 初始化renderEffect
 		const setupRenderEffect = (
 			instance,
 			initialVNode,
@@ -7222,8 +7224,10 @@ If you want to remount the same app, move your app creation logic into a factory
 			isSVG,
 			optimized
 		) => {
+			// renderEffect中的回调
 			const componentUpdateFn = () => {
 				if (!instance.isMounted) {
+					// 实例还没挂载过
 					let vnodeHook;
 					const { el, props } = initialVNode;
 					const { bm, m, parent } = instance;
