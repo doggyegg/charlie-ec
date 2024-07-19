@@ -1,0 +1,7 @@
+POST https://acorndev.chexiao.co/api/asset/collateral/confirmationTask/pending/confirmation
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVUaW1lIjoxNzIxMTk2MjQ0NTM5LCJuaWNrbmFtZSI6IuatpuaxieWGnOadkeWVhuS4mumTtuihjOWwj-adqCIsInVzZXJOYW1lIjoiMTg5OTk5OTk5OTIiLCJ1c2VySWQiOjYxLCJ1dWlkIjoiNjdkN2ZhYzU1M2QwNDI3ZjhmZjgxZGM2NGFkZjc0MTciLCJ0aW1lb3V0IjowLCJyZWFsbmFtZSI6IuatpuaxieWGnOadkeWVhuS4mumTtuihjOWwj-adqCJ9.ya-ZY71xyXZZphhL_0sxHCqPpFwVKeuitLoQP9LP29g
+Content-Type: application/json
+
+{
+  "id": 24, "remark": "2", "processingMethod": "1"
+}

@@ -121,7 +121,7 @@ export default class FileUploader {
 		//开始传分片
 		for (let i = 0; i < chunkList.length; i++) {
 			const chunkItem = chunkList[i];
-			const { chunkHash, file, sort } = chunkItem;
+			const { chunkHash, file, sort } = chunkItem!;
 
 			//控制并发
 			if (this.requestCount >= 5) return;
