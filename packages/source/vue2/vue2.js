@@ -808,7 +808,7 @@
 		};
 		Dep.prototype.depend = function (info) {
 			if (Dep.target) {
-				// Dep.target:当前的全局Watcher
+				// Dep.target:当前的全局Watcher,调这个方法会将当前全局watcher收集到该Dep中
 				Dep.target.addDep(this);
 				if (info && Dep.target.onTrack) {
 					Dep.target.onTrack(__assign({ effect: Dep.target }, info));
@@ -1013,6 +1013,7 @@
 		if ((!getter || setter) && (val === NO_INIITIAL_VALUE || arguments.length === 2)) {
 			val = obj[key];
 		}
+		// 响应式递归
 		var childOb = !shallow && observe(val, false, mock);
 
 		Object.defineProperty(obj, key, {
@@ -1031,6 +1032,7 @@
 						});
 					}
 					if (childOb) {
+						// this.__ob__收集依赖
 						childOb.dep.depend();
 						if (isArray(value)) {
 							dependArray(value);
@@ -1110,6 +1112,7 @@
 		}
 		defineReactive(ob.value, key, val, undefined, ob.shallow, ob.mock);
 		{
+			// ob.dep中收集了renderWatcher这个时候视图会刷新
 			ob.dep.notify({
 				type: 'add' /* TriggerOpTypes.ADD */,
 				target: target,
@@ -4252,6 +4255,7 @@
 				activeEffectScope && !activeEffectScope._vm ? activeEffectScope : vm ? vm._scope : undefined
 			);
 			if ((this.vm = vm) && isRenderWatcher) {
+				// renderWatcher放在vm_watcher上
 				vm._watcher = this;
 			}
 			// options
