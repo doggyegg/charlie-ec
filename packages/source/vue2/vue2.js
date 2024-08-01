@@ -1782,6 +1782,7 @@
 	var ALWAYS_NORMALIZE = 2;
 	// wrapper function for providing a more flexible interface
 	// without getting yelled at by flow
+	// render函数中调用的渲染vnode函数,h函数调的也是这个函数
 	function createElement$1(context, tag, data, children, normalizationType, alwaysNormalize) {
 		if (isArray(data) || isPrimitive(data)) {
 			normalizationType = children;
@@ -1793,6 +1794,7 @@
 		}
 		return _createElement(context, tag, data, children, normalizationType);
 	}
+	// render函数中调用，返回值是vnode,
 	function _createElement(context, tag, data, children, normalizationType) {
 		if (isDef(data) && isDef(data.__ob__)) {
 			warn$2(
@@ -2911,6 +2913,8 @@
 		vm._isBeingDestroyed = false;
 	}
 	function lifecycleMixin(Vue) {
+		// 将新(该次render函数生成的Vnode)和旧（上次render函数生成的vnode并挂载到vm._vnode上）vnode
+		// 通过patch进行diff算法对比，并生成和更新实际dom
 		Vue.prototype._update = function (vnode, hydrating) {
 			var vm = this;
 			var prevEl = vm.$el;
@@ -2992,6 +2996,7 @@
 			}
 		};
 	}
+	// $mount调用，挂载组件
 	function mountComponent(vm, el, hydrating) {
 		vm.$el = el;
 		if (!vm.$options.render) {
@@ -4247,6 +4252,7 @@
 	 * @internal
 	 */
 	var Watcher = /** @class */ (function () {
+		// expOrFn在get及run的时候调，cb在run的时候调
 		function Watcher(vm, expOrFn, cb, options, isRenderWatcher) {
 			recordEffectScope(
 				this,
@@ -4302,13 +4308,16 @@
 		}
 		/**
 		 * Evaluate the getter, and re-collect dependencies.
+		 * 只调getter，不调cb
 		 */
 		Watcher.prototype.get = function () {
-			debugger;
+			// 把当前watcher推到全局Dep.target下，以供observer收集
 			pushTarget(this);
 			var value;
 			var vm = this.vm;
 			try {
+				// renderWatcher的话，在此调的vm._update(vm_render()) render里会读data或props的各个key，
+				// 从而各个key的dep中持有了renderWatcher
 				value = this.getter.call(vm, vm);
 			} catch (e) {
 				if (this.user) {
@@ -4380,6 +4389,7 @@
 		/**
 		 * Scheduler job interface.
 		 * Will be called by the scheduler.
+		 * 即调getter 又调cb
 		 */
 		Watcher.prototype.run = function () {
 			if (this.active) {
@@ -6509,6 +6519,7 @@
 		node.removeChild(child);
 	}
 	function appendChild(node, child) {
+		debugger;
 		node.appendChild(child);
 	}
 	function parentNode(node) {
@@ -6630,6 +6641,8 @@
 	var emptyNode = new VNode('', {}, []);
 	var hooks = ['create', 'activate', 'update', 'remove', 'destroy'];
 	function sameVnode(a, b) {
+		// 判断是是否为同一个vnode
+		// key一样，异步工厂一样，标签一样，data地址值一样，input type一样
 		return (
 			a.key === b.key &&
 			a.asyncFactory === b.asyncFactory &&
@@ -6660,7 +6673,7 @@
 		var i, j;
 		var cbs = {};
 		var modules = backend.modules,
-			nodeOps = backend.nodeOps;
+			nodeOps = backend.nodeOps; // 浏览器原生dom操作
 		for (i = 0; i < hooks.length; ++i) {
 			cbs[hooks[i]] = [];
 			for (j = 0; j < modules.length; ++j) {
@@ -6702,6 +6715,7 @@
 			);
 		}
 		var creatingElmInVPre = 0;
+		// 将虚拟dom转化为真实dom
 		function createElm(vnode, insertedVnodeQueue, parentElm, refElm, nested, ownerArray, index) {
 			if (isDef(vnode.elm) && isDef(ownerArray)) {
 				// This vnode was used in a previous render!
@@ -6942,6 +6956,7 @@
 				removeNode(vnode.elm);
 			}
 		}
+		// 双指针对比
 		function updateChildren(parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly) {
 			var oldStartIdx = 0;
 			var newStartIdx = 0;
@@ -6959,6 +6974,7 @@
 			{
 				checkDuplicateKeys(newCh);
 			}
+			// 双指针对比
 			while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
 				if (isUndef(oldStartVnode)) {
 					oldStartVnode = oldCh[++oldStartIdx]; // Vnode has been moved left
@@ -7057,6 +7073,7 @@
 				if (isDef(c) && sameVnode(node, c)) return i_5;
 			}
 		}
+		//
 		function patchVnode(oldVnode, vnode, insertedVnodeQueue, ownerArray, index, removeOnly) {
 			if (oldVnode === vnode) {
 				return;
@@ -7237,22 +7254,28 @@
 		}
 		return function patch(oldVnode, vnode, hydrating, removeOnly) {
 			if (isUndef(vnode)) {
+				// 没有当前的vnode,有旧的vnode，调destroy周期，然后返回
 				if (isDef(oldVnode)) invokeDestroyHook(oldVnode);
 				return;
 			}
 			var isInitialPatch = false;
 			var insertedVnodeQueue = [];
 			if (isUndef(oldVnode)) {
+				// 如果没有旧的vnode，证明是第一个调patch，直接用当前的vnode创建真实元素
 				// empty mount (likely as component), create new root element
 				isInitialPatch = true;
 				createElm(vnode, insertedVnodeQueue);
 			} else {
+				// 判断旧节点是否为真实元素
 				var isRealElement = isDef(oldVnode.nodeType);
 				if (!isRealElement && sameVnode(oldVnode, vnode)) {
 					// patch existing root node
+					// 如果不是真实元素，并且是同一个vnode话，复用原来的vnode，对比差异
 					patchVnode(oldVnode, vnode, insertedVnodeQueue, null, null, removeOnly);
 				} else {
+					// 是真实元素或者不是同一个vnode话，创造一个新的vnode
 					if (isRealElement) {
+						// 真实元素（浏览器元素），直接通过浏览器操作去渲染
 						// mounting to a real element
 						// check if this is server-rendered content and if we can perform
 						// a successful hydration.
@@ -7281,7 +7304,7 @@
 					// replacing existing element
 					var oldElm = oldVnode.elm;
 					var parentElm = nodeOps.parentNode(oldElm);
-					// create new node
+					// 创建一个新的真实dom
 					createElm(
 						vnode,
 						insertedVnodeQueue,
@@ -9741,8 +9764,9 @@
 			// Make sure we're not in a plaintext content element like script/style
 			if (!lastTag || !isPlainTextElement(lastTag)) {
 				var textEnd = html.indexOf('<');
+				// 从第一个<开始
 				if (textEnd === 0) {
-					// Comment:
+					// Comment:跳过注释代码
 					if (comment.test(html)) {
 						var commentEnd = html.indexOf('-->');
 						if (commentEnd >= 0) {
@@ -9767,7 +9791,7 @@
 						advance(doctypeMatch[0].length);
 						return 'continue';
 					}
-					// End tag:
+					// End tag: 找到结束标签
 					var endTagMatch = html.match(endTag);
 					if (endTagMatch) {
 						var curIndex = index;
@@ -10017,12 +10041,13 @@
 	 * Convert HTML string to AST.
 	 */
 	function parse(template, options) {
+		debugger;
 		warn = options.warn || baseWarn;
 		platformIsPreTag = options.isPreTag || no;
 		platformMustUseProp = options.mustUseProp || no;
 		platformGetTagNamespace = options.getTagNamespace || no;
 		var isReservedTag = options.isReservedTag || no;
-		debugger;
+
 		maybeComponent = function (el) {
 			return !!(
 				el.component ||
@@ -10137,6 +10162,7 @@
 				);
 			}
 		}
+		// 解析html
 		parseHTML(template, {
 			warn: warn,
 			expectHTML: options.expectHTML,
@@ -12195,11 +12221,13 @@
 	// parser/optimizer/codegen, e.g the SSR optimizing compiler.
 	// Here we just export a default compiler using the default parts.
 	var createCompiler = createCompilerCreator(function baseCompile(template, options) {
+		// 调parse函数将template转化为抽象语法树
 		var ast = parse(template.trim(), options);
-		debugger;
 		if (options.optimize !== false) {
+			// 初始化
 			optimize(ast, options);
 		}
+		// 调用generate将抽象语法树转化为最终的render函数
 		var code = generate(ast, options);
 		return {
 			ast: ast,
@@ -12237,6 +12265,7 @@
 		}
 		var options = this.$options;
 		// resolve template/el and convert to render function
+		// 没render函数的话，调用compileToFunctions 将template转化为render函数
 		if (!options.render) {
 			var template = options.template;
 			if (template) {

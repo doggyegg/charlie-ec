@@ -1345,7 +1345,7 @@ var Vue = (function (exports) {
 	}
 	class RefImpl {
 		constructor(value, __v_isShallow) {
-			this.__v_isShallow = __v_isShallow; // 浅层响应式还是深层，浅层只对该对象做响应式处理，深层会递归对其所有子代属性做响应式处理
+			this.__v_isShallow = __v_isShallow; // 浅层响应式还是深层，浅层(Shallow Ref)只对该对象做响应式处理，深层会递归对其所有子代属性做响应式处理
 			this.dep = void 0; // void 0 看作undefined
 			this.__v_isRef = true; // ref实例标识
 			this._rawValue = __v_isShallow ? value : toRaw(value); // 保留原始值
@@ -1366,6 +1366,7 @@ var Vue = (function (exports) {
 				this._rawValue = newVal;
 				// 将新值再做一次响应式代理
 				this._value = useDirectValue ? newVal : toReactive(newVal);
+				// 去派发当前ref示例下dep中收集到的effect,调effect上的run方法
 				triggerRefValue(this, newVal);
 			}
 		}
