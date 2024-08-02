@@ -3,10 +3,10 @@ import { ITreeItem } from '../types/util.ts';
 export default {
 	/**
 	 * 树转平
-	 * @params treeData:多棵树树结构
+	 * @param treeData:多棵树树结构
 	 * @return flatData 展平的数据
 	 */
-	Tree2Flat(treeData: Array<ITreeItem>): Array<ITreeItem> {
+	tree2Flat(treeData: Array<ITreeItem>): Array<ITreeItem> {
 		if (!Array.isArray(treeData)) return treeData;
 
 		const result: Array<ITreeItem> = [];
@@ -26,10 +26,10 @@ export default {
 
 	/**
 	 * 平转树
-	 * @params flatData 展平的数据
+	 * @param flatData 展平的数据
 	 * @return treeData:多棵树树结构
 	 */
-	Flat2Tree(flatData: Array<ITreeItem>): Array<ITreeItem> {
+	flat2Tree(flatData: Array<ITreeItem>): Array<ITreeItem> {
 		const result: ITreeItem[] = [];
 		const flatMap = new Map();
 
@@ -52,7 +52,7 @@ export default {
 
 	/**
 	 * 深度遍历树
-	 * @params treeData:树数据  cb:每次执行的回调函数
+	 * @param treeData:树数据  cb:每次执行的回调函数
 	 * @return void
 	 */
 	traverseTreeDFC(treeData: Array<ITreeItem>, cb: Function, childrenFlag: string = 'children') {
@@ -69,7 +69,7 @@ export default {
 	},
 	/**
 	 * 广度遍历树
-	 * @params treeData cb:每次执行的回调函数
+	 * @param treeData cb:每次执行的回调函数
 	 * @return void
 	 */
 	traverseTreeBFC(treeData: Array<ITreeItem>, cb: Function, childrenFlag: string = 'children') {
@@ -89,5 +89,65 @@ export default {
 				});
 			}
 		}
+	},
+	/**
+	 * 防抖函数
+	 * @param cb:回调函数 ，time:等待的时长:毫秒
+	 * @return 加了防抖后的函数
+	 */
+	debounce(cb: Function, time: number) {
+		let timer = null;
+
+		return function (...params) {
+			if (timer) {
+				clearTimeout(timer);
+			}
+
+			timer = setTimeout(() => {
+				cb(...params);
+			}, time);
+		};
+	},
+	/**
+	 * 节流函数
+	 * @param cb:回调函数 ，time:等待的时长:毫秒
+	 * @return 加了防抖后的函数
+	 */
+	throttle(cb: Function, time: number) {
+		let lastCallTime = undefined;
+
+		return function (...params) {
+			if (lastCallTime && Date.now() - lastCallTime <= time) return;
+
+			cb(...params);
+			lastCallTime = Date.now();
+		};
+	},
+	/**
+	 * 深克隆
+	 * @param source 初始对象
+	 * @return result 克隆对象
+	 */
+	deepClone(source: Array<unknown> | Object, cacheMap = new WeakMap()) {
+		// 排除非引用数据
+		if (typeof source !== 'object') return source;
+		// 解决循环引用
+		if (cacheMap.has(source)) {
+			return cacheMap.get(source);
+		}
+		const isArray = Array.isArray(source);
+		const result = isArray ? [] : {};
+
+		cacheMap.set(source, source);
+		if (isArray) {
+			source.forEach(i => {
+				(result as Array<unknown>).push(this.deepClone(i, cacheMap));
+			});
+		} else {
+			Object.keys(source).forEach(i => {
+				result[i] = this.deepClone(source[i], cacheMap);
+			});
+		}
+		return result;
 	}
 };
