@@ -5253,6 +5253,7 @@ If this is a native custom element, make sure to exclude it from component resol
 	}
 	let uid$1 = 0;
 	function createAppAPI(render, hydrate) {
+		// 外部调用createAPP时调到的 内部createApp, rootComponent是传过来的render函数
 		return function createApp(rootComponent, rootProps = null) {
 			if (!isFunction(rootComponent)) {
 				rootComponent = extend({}, rootComponent);
@@ -5345,6 +5346,7 @@ If this is a native custom element, make sure to exclude it from component resol
 					context.directives[name] = directive;
 					return app;
 				},
+				// 外部调用的最终的mount
 				mount(rootContainer, isHydrate, isSVG) {
 					if (!isMounted) {
 						if (rootContainer.__vue_app__) {
@@ -5363,6 +5365,7 @@ If this is a native custom element, make sure to exclude it from component resol
 						if (isHydrate && hydrate) {
 							hydrate(vnode, rootContainer);
 						} else {
+							// 初始化mount的时候调的这里的render
 							render(vnode, rootContainer, isSVG);
 						}
 						isMounted = true;
@@ -7225,8 +7228,11 @@ If you want to remount the same app, move your app creation logic into a factory
 			isSVG,
 			optimized
 		) => {
+			debugger;
+
 			// renderEffect中的回调
 			const componentUpdateFn = () => {
+				debugger;
 				if (!instance.isMounted) {
 					// 实例还没挂载过
 					let vnodeHook;
