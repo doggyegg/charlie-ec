@@ -8,12 +8,12 @@ async function bootstrap() {
 	// 解决跨域
 	app.enableCors({
 		origin: ['http://localhost:3000', '*'], // 将其设置为你的前端运行的端口
-		credentials: true // 允许携带凭证（如 Cookie）
+		credentials: true // 允许携带凭证（如 Cookie）,允许携带cookie时，origin不能为*
 	});
 	// 统一返回值格式
 	app.useGlobalInterceptors(new ResponseInterceptor());
 	await app.listen(1994); // 启用端口号
-	console.log('success bootstrap');
+	console.info('success bootstrap');
 }
 
 bootstrap();
