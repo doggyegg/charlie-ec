@@ -1,18 +1,43 @@
-# 项目简介
+# Charlie-EC
 
-Charlie个人电商项目，准备个人商用，整个项目使用Monorepo架构，包含管理端，客户端（PC/移动），服务端代码
+Charlie-EC为个人电商项目，包含PC管理端，PC用户端，接口服务端，移动端（H5,微信小程序），整个项目使用Monorepo单仓多包的管理方式，通过Workspace协议实现子包间的资源复用，提升开发效率
 
-# 项目结构
+## 项目结构
 
-base：公共组件
-utils：公共方法
-admin：后台管理端 技术选型：vue3 vue-router pinia element-plus
-customer：客户PC端 技术选型：react react-router mobx antd
-mobile:客户移动端(h5,小程序) 技术选型：uniapp + vue3
-service：服务端 技术选型：nest.js mysql typeorm
-source：部分第三方组件库源码，用于学习和debugger
+- base：公共组件
+  - base：在element-ui或andt-d基础上进行二次封装的基础组件
+  - busi：针对项目本身可复用的业务组件
+- utils：公共函数
+  - request：axios基础上二次封装的请求函数
+  - validate：正则校验函数
+  - fileUploader：大文件上传
+  - util：常用工具函数
+- admin：后台管理端
+  - vue3
+  - vue-router
+  - pinia
+  - element-plus
+- customer：客户PC端
+  - react
+  - react-router
+  - mobx
+  - antd
+- mobile:客户移动端(h5,小程序)
+  - uniapp
+  - vue3
+- service：服务端
+  - nest.js
+  - mysql
+  - typeorm
+- source：部分第三方组件库源码，用于学习和debugger
 
-# 规范
+## 项目规范
 
-eslint + prettier做代码格式规范
-husky + lint-staged + commit-lint + cz 做提交规范
+- 代码格式化规范：
+  - 语法：eslint
+  - 格式：prettier
+- 代码提交规范：
+  - husky
+  - lint-staged
+  - commit-lint
+  - commitizen
