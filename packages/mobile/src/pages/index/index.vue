@@ -1,10 +1,5 @@
 <template>
-	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view class="text-area">
-			<text class="title">{{ title }}222</text>
-		</view>
-	</view>
+	<view class="content"> Home </view>
 </template>
 
 <script>
