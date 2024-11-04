@@ -1023,7 +1023,6 @@
 				var value = getter ? getter.call(obj) : val;
 				// Dep.target为当前的全局watcher
 				if (Dep.target) {
-					debugger;
 					{
 						dep.depend({
 							target: obj,
@@ -1042,7 +1041,6 @@
 				return isRef(value) && !shallow ? value.value : value;
 			},
 			set: function reactiveSetter(newVal) {
-				debugger;
 				var value = getter ? getter.call(obj) : val;
 				if (!hasChanged(value, newVal)) {
 					return;
