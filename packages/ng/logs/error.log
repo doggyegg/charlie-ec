@@ -1,0 +1,29 @@
+2024/10/31 14:43:46 [error] 33704#37992: *1 CreateFile() "D:\nginx-1.26.2/html/favicon.ico" failed (2: The system cannot find the file specified), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/"
+2024/10/31 15:02:16 [notice] 32020#2472: signal process started
+2024/10/31 15:03:26 [notice] 7048#35100: signal process started
+2024/10/31 15:03:38 [notice] 21040#14236: signal process started
+2024/10/31 15:03:38 [error] 21040#14236: CreateFile() "D:\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/10/31 15:04:11 [notice] 38928#30208: signal process started
+2024/10/31 15:04:11 [error] 38928#30208: CreateFile() "D:\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/10/31 15:04:26 [notice] 34576#37184: signal process started
+2024/10/31 15:04:26 [error] 34576#37184: CreateFile() "D:\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/10/31 15:04:52 [notice] 21252#25864: signal process started
+2024/10/31 15:08:29 [emerg] 18808#7728: directive "listen" is not terminated by ";" in D:\nginx-1.26.2/conf/nginx.conf:39
+2024/10/31 15:08:41 [emerg] 15824#39396: directive "listen" is not terminated by ";" in D:\nginx-1.26.2/conf/nginx.conf:39
+2024/10/31 15:09:27 [notice] 16888#11152: signal process started
+2024/10/31 15:09:27 [error] 16888#11152: CreateFile() "D:\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/10/31 15:11:04 [notice] 25544#31188: signal process started
+2024/10/31 15:11:04 [error] 25544#31188: CreateFile() "D:\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/10/31 15:11:57 [notice] 1488#10432: signal process started
+2024/10/31 15:11:57 [error] 1488#10432: CreateFile() "D:\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/10/31 15:12:16 [notice] 39772#6828: signal process started
+2024/10/31 15:12:16 [error] 39772#6828: CreateFile() "D:\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/10/31 15:12:23 [notice] 27536#34792: signal process started
+2024/10/31 15:12:23 [error] 27536#34792: CreateFile() "D:\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/10/31 15:12:43 [notice] 17764#16600: signal process started
+2024/10/31 15:12:43 [error] 17764#16600: CreateFile() "D:\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/10/31 15:13:01 [notice] 26804#29780: signal process started
+2024/10/31 15:13:01 [error] 26804#29780: CreateFile() "D:\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/10/31 15:13:12 [notice] 27288#33684: signal process started
+2024/10/31 15:13:21 [notice] 10788#30092: signal process started
+2024/10/31 15:15:22 [error] 33704#37992: *14 CreateFile() "D:\nginx-1.26.2/html/favicon.ico" failed (2: The system cannot find the file specified), client: 192.168.5.93, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "192.168.5.93", referrer: "http://192.168.5.93/"
